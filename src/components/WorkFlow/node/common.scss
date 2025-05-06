@@ -1,0 +1,54 @@
+.work-flow-node-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.work-flow-node {
+    width: 220px;
+    height: 72px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #ccc;
+    transition: all .5s;
+
+    &:hover {
+        box-shadow: 0 0 5px #1580eb;
+        cursor: pointer;
+    }
+
+    .node-title {
+        border-radius: 5px 5px 0 0;
+        padding: 0 20px;
+        height: 24px;
+        font-size: 12px;
+        line-height: 24px;
+
+    }
+
+    .node-content {
+        background-color: #fff;
+        padding: 0 20px;
+        font-size: 14px;
+        line-height: 48px;
+        border-radius: 0 0 5px 5px;
+    }
+}
+
+.delete-node {
+    position: absolute;
+    transition: all 0.5s linear;
+    transform: translateX(200px) translateY(-68px);
+    fill: #ddd;
+    opacity: 0;
+}
+
+.work-flow-node:hover {
+    .delete-node {
+        opacity: 1;
+        fill: #15bc83;
+
+        &:hover {
+            box-shadow: 0 0 3px #15bc83;
+        }
+    }
+}
