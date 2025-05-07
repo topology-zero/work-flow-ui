@@ -1,32 +1,40 @@
 <template>
     <div class="work-flow-node-box">
-        <div class="work-flow-node">
+        <div class="work-flow-node"
+             @click="openDrawer = true">
             <div class="node-title"><svg-icon icon-class="copy"></svg-icon>&nbsp;&nbsp;抄送人</div>
-            <div class="node-content">所有人</div>
+            <div class="node-content">{{data.copyUser ?? '未设置'}}</div>
             <svg-icon icon-class="close"
-                      @click="handleDeleteNode()"
+                      @click.stop="handleDeleteNode()"
                       class="delete-node" />
         </div>
         <AddNode v-model="data"
                  :index="index"
                  v-model:parentData="parentData" />
+
+        <CopyDrawer v-model="openDrawer"
+                    v-model:data="data" />
     </div>
 </template>
 
 <script setup>
-import './common.scss'
+import { ref } from 'vue'
 import AddNode from './add-node.vue'
 import { ElMessageBox } from 'element-plus'
-
+import CopyDrawer from '../drawer/copy-drawer.vue'
+import './common.scss'
 // props
 const props = defineProps({ index: Number })
 
 // v-model
+const data = defineModel({ type: Object })
 const parentData = defineModel('parentData', { type: Array })
-const data = defineModel('data', { type: Object })
 
 // emit
 const emit = defineEmits(['deleteNode'])
+
+// data
+const openDrawer = ref(false)
 
 // 删除节点
 const handleDeleteNode = async () => {

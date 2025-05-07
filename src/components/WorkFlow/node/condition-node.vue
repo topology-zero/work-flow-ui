@@ -1,32 +1,41 @@
 <template>
     <div class="work-flow-node-box">
-        <div class="work-flow-node">
-            <div class="node-title"><svg-icon icon-class="condition" />&nbsp;&nbsp;条件{{props.conditionIndex}}</div>
-            <div class="node-content">请设置条件</div>
+        <div class="work-flow-node"
+             @click="openDrawer = true">
+            <div class="node-title"><svg-icon icon-class="condition" />&nbsp;&nbsp;{{data.title ?? `条件${props.conditionIndex}`}}</div>
+            <div class="node-content">{{ data.condition ? `【${data.condition}】为【${data.conditionValue}】时` : '请设置条件'}}</div>
             <svg-icon icon-class="close"
-                      @click="handleDeleteCondition()"
+                      @click.stop="handleDeleteCondition()"
                       class="delete-node" />
         </div>
         <AddNode v-model="data"
                  :index="index"
                  v-model:parentData="parentData" />
+
+        <ConditionDrawer v-model="openDrawer"
+                         v-model:data="data" />
     </div>
 </template>
 
 <script setup>
-import './common.scss'
+import { ref } from 'vue'
 import AddNode from './add-node.vue'
 import { ElMessageBox } from 'element-plus'
+import ConditionDrawer from '../drawer/condition-drawer.vue'
+import './common.scss'
 
 // props
 const props = defineProps({ index: Number, conditionIndex: Number })
 
 // v-model
+const data = defineModel({ type: Object })
 const parentData = defineModel('parentData', { type: Array })
-const data = defineModel('data', { type: Object })
 
 // emit
 const emit = defineEmits(['deleteCondition'])
+
+// data
+const openDrawer = ref(false)
 
 // 删除条件分支
 const handleDeleteCondition = async () => {
